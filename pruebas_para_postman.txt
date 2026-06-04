@@ -1,0 +1,1077 @@
+1. AUTENTICACIÓN - Puerto 8082
+═══════════════════════════════════════════════════════════════════
+
+ POST - LOGIN (Obtener Token)
+─────────────────────────────────────────────────────────────────
+URL: http://localhost:8082/auth/login
+Method: POST
+Headers:
+  Content-Type: application/json
+
+Body (JSON raw):
+{
+  "username": "admin",
+  "password": "admin123"
+}
+
+Expected Response (200 OK):
+{
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+  "message": "Login exitoso"
+}
+
+
+ GET - USUARIOS CONECTADOS
+─────────────────────────────────────────────────────────────────
+URL: http://localhost:8082/auth/conectados
+Method: GET
+Headers: (None required)
+
+Expected Response (200 OK):
+[
+  {
+    "idUserConectado": 1,
+    "usuario": "admin",
+    "fechaConexion": "2026-06-03T10:30:00"
+  }
+]
+
+ GUARDAR: El idUserConectado (1) para usar en otros requests
+
+═══════════════════════════════════════════════════════════════════
+2. GESTIÓN DE USUARIOS - Puerto 8081
+═══════════════════════════════════════════════════════════════════
+
+ GET - OBTENER TODOS LOS USUARIOS
+─────────────────────────────────────────────────────────────────
+URL: http://localhost:8081/api/v1/usuarios
+Method: GET
+Headers:
+  X-User-Id: 1
+
+Expected Response (200 OK):
+[
+  {
+    "idUsuario": 1,
+    "username": "admin",
+    "email": "admin@example.com",
+    "idRol": 1
+  },
+  {
+    "idUsuario": 2,
+    "username": "usuario1",
+    "email": "usuario1@example.com",
+    "idRol": 3
+  }
+]
+
+
+ GET - OBTENER USUARIO POR ID
+─────────────────────────────────────────────────────────────────
+URL: http://localhost:8081/api/v1/usuarios/1
+Method: GET
+Headers:
+  X-User-Id: 1
+
+Expected Response (200 OK):
+{
+  "idUsuario": 1,
+  "username": "admin",
+  "email": "admin@example.com",
+  "idRol": 1
+}
+
+
+ POST - REGISTRAR NUEVO USUARIO
+─────────────────────────────────────────────────────────────────
+URL: http://localhost:8081/api/v1/usuarios/register
+Method: POST
+Headers:
+  X-User-Id: 1
+  Content-Type: application/json
+
+Body (JSON raw):
+{
+  "username": "nuevouser",
+  "password": "password123",
+  "email": "nuevouser@example.com",
+  "idRol": 3
+}
+
+Expected Response (200 OK):
+{
+  "idUsuario": 8,
+  "username": "nuevouser",
+  "email": "nuevouser@example.com",
+  "idRol": 3
+}
+
+
+ PUT - ACTUALIZAR USUARIO
+─────────────────────────────────────────────────────────────────
+URL: http://localhost:8081/api/v1/usuarios/8
+Method: PUT
+Headers:
+  X-User-Id: 1
+  Content-Type: application/json
+
+Body (JSON raw):
+{
+  "username": "nuevouser_updated",
+  "email": "newemail@example.com",
+  "idRol": 2
+}
+
+Expected Response (200 OK):
+{
+  "idUsuario": 8,
+  "username": "nuevouser_updated",
+  "email": "newemail@example.com",
+  "idRol": 2
+}
+
+
+ DELETE - ELIMINAR USUARIO
+─────────────────────────────────────────────────────────────────
+URL: http://localhost:8081/api/v1/usuarios/8
+Method: DELETE
+Headers:
+  X-User-Id: 1
+
+Expected Response (200 OK):
+{
+  "message": "Usuario eliminado exitosamente"
+}
+
+═══════════════════════════════════════════════════════════════════
+3. ROLES Y PERMISOS - Puerto 8089
+═══════════════════════════════════════════════════════════════════
+
+ GET - OBTENER TODOS LOS ROLES
+─────────────────────────────────────────────────────────────────
+URL: http://localhost:8089/api/v1/roles
+Method: GET
+Headers:
+  X-User-Id: 1
+
+Expected Response (200 OK):
+[
+  {
+    "idRol": 1,
+    "nombre": "Administrador",
+    "descripcion": "Acceso total al sistema"
+  },
+  {
+    "idRol": 2,
+    "nombre": "Gestor de Inventario",
+    "descripcion": "Gestiona equipos"
+  }
+]
+
+
+ GET - OBTENER ROL POR ID
+─────────────────────────────────────────────────────────────────
+URL: http://localhost:8089/api/v1/roles/1
+Method: GET
+Headers:
+  X-User-Id: 1
+
+Expected Response (200 OK):
+{
+  "idRol": 1,
+  "nombre": "Administrador",
+  "descripcion": "Acceso total al sistema",
+  "permisos": [
+    {"idPermiso": 1, "nombre": "CREAR_USUARIO"},
+    {"idPermiso": 2, "nombre": "ELIMINAR_USUARIO"}
+  ]
+}
+
+
+ POST - CREAR ROL
+─────────────────────────────────────────────────────────────────
+URL: http://localhost:8089/api/v1/roles
+Method: POST
+Headers:
+  X-User-Id: 1
+  Content-Type: application/json
+
+Body (JSON raw):
+{
+  "nombre": "Nuevo Rol",
+  "descripcion": "Descripción del nuevo rol"
+}
+
+Expected Response (201 CREATED):
+{
+  "idRol": 7,
+  "nombre": "Nuevo Rol",
+  "descripcion": "Descripción del nuevo rol"
+}
+
+
+ PUT - ACTUALIZAR ROL
+─────────────────────────────────────────────────────────────────
+URL: http://localhost:8089/api/v1/roles/7
+Method: PUT
+Headers:
+  X-User-Id: 1
+  Content-Type: application/json
+
+Body (JSON raw):
+{
+  "nombre": "Nuevo Rol Actualizado",
+  "descripcion": "Descripción actualizada"
+}
+
+Expected Response (200 OK):
+{
+  "idRol": 7,
+  "nombre": "Nuevo Rol Actualizado",
+  "descripcion": "Descripción actualizada"
+}
+
+
+ DELETE - ELIMINAR ROL
+─────────────────────────────────────────────────────────────────
+URL: http://localhost:8089/api/v1/roles/7
+Method: DELETE
+Headers:
+  X-User-Id: 1
+
+Expected Response (200 OK):
+{
+  "message": "Rol eliminado exitosamente"
+}
+
+
+ GET - OBTENER TODOS LOS PERMISOS
+─────────────────────────────────────────────────────────────────
+URL: http://localhost:8089/api/v1/permisos
+Method: GET
+Headers:
+  X-User-Id: 1
+
+Expected Response (200 OK):
+[
+  {"idPermiso": 1, "nombre": "CREAR_USUARIO"},
+  {"idPermiso": 2, "nombre": "ELIMINAR_USUARIO"},
+  {"idPermiso": 3, "nombre": "VER_REPORTES"}
+]
+
+═══════════════════════════════════════════════════════════════════
+4. MARCAS Y MODELOS - Puerto 8086
+═══════════════════════════════════════════════════════════════════
+
+ GET - OBTENER TODAS LAS MARCAS
+─────────────────────────────────────────────────────────────────
+URL: http://localhost:8086/api/v1/marcas
+Method: GET
+Headers:
+  X-User-Id: 1
+
+Expected Response (200 OK):
+[
+  {"idMarca": 1, "nombre": "John Deere"},
+  {"idMarca": 2, "nombre": "Case IH"},
+  {"idMarca": 3, "nombre": "AGCO"}
+]
+
+
+ GET - OBTENER MARCA POR ID
+─────────────────────────────────────────────────────────────────
+URL: http://localhost:8086/api/v1/marcas/1
+Method: GET
+Headers:
+  X-User-Id: 1
+
+Expected Response (200 OK):
+{
+  "idMarca": 1,
+  "nombre": "John Deere"
+}
+
+
+ POST - CREAR MARCA
+─────────────────────────────────────────────────────────────────
+URL: http://localhost:8086/api/v1/marcas
+Method: POST
+Headers:
+  X-User-Id: 1
+  Content-Type: application/json
+
+Body (JSON raw):
+{
+  "nombre": "Nueva Marca"
+}
+
+Expected Response (201 CREATED):
+{
+  "idMarca": 4,
+  "nombre": "Nueva Marca"
+}
+
+
+ PUT - ACTUALIZAR MARCA
+─────────────────────────────────────────────────────────────────
+URL: http://localhost:8086/api/v1/marcas/4
+Method: PUT
+Headers:
+  X-User-Id: 1
+  Content-Type: application/json
+
+Body (JSON raw):
+{
+  "nombre": "Marca Actualizada"
+}
+
+Expected Response (200 OK):
+{
+  "idMarca": 4,
+  "nombre": "Marca Actualizada"
+}
+
+
+ DELETE - ELIMINAR MARCA
+─────────────────────────────────────────────────────────────────
+URL: http://localhost:8086/api/v1/marcas/4
+Method: DELETE
+Headers:
+  X-User-Id: 1
+
+Expected Response (200 OK):
+{
+  "message": "Marca eliminada exitosamente"
+}
+
+
+ GET - OBTENER TODOS LOS MODELOS
+─────────────────────────────────────────────────────────────────
+URL: http://localhost:8086/api/v1/modelos
+Method: GET
+Headers:
+  X-User-Id: 1
+
+Expected Response (200 OK):
+[
+  {"idModelo": 1, "nombre": "JD 5075E", "idMarca": 1},
+  {"idModelo": 2, "nombre": "JD 5095R", "idMarca": 1}
+]
+
+
+ GET - OBTENER MODELO POR ID
+─────────────────────────────────────────────────────────────────
+URL: http://localhost:8086/api/v1/modelos/1
+Method: GET
+Headers:
+  X-User-Id: 1
+
+Expected Response (200 OK):
+{
+  "idModelo": 1,
+  "nombre": "JD 5075E",
+  "idMarca": 1
+}
+
+
+ POST - CREAR MODELO
+─────────────────────────────────────────────────────────────────
+URL: http://localhost:8086/api/v1/modelos
+Method: POST
+Headers:
+  X-User-Id: 1
+  Content-Type: application/json
+
+Body (JSON raw):
+{
+  "nombre": "Nuevo Modelo",
+  "idMarca": 1
+}
+
+Expected Response (201 CREATED):
+{
+  "idModelo": 9,
+  "nombre": "Nuevo Modelo",
+  "idMarca": 1
+}
+
+
+ PUT - ACTUALIZAR MODELO
+─────────────────────────────────────────────────────────────────
+URL: http://localhost:8086/api/v1/modelos/9
+Method: PUT
+Headers:
+  X-User-Id: 1
+  Content-Type: application/json
+
+Body (JSON raw):
+{
+  "nombre": "Modelo Actualizado",
+  "idMarca": 1
+}
+
+Expected Response (200 OK):
+{
+  "idModelo": 9,
+  "nombre": "Modelo Actualizado",
+  "idMarca": 1
+}
+
+
+ DELETE - ELIMINAR MODELO
+─────────────────────────────────────────────────────────────────
+URL: http://localhost:8086/api/v1/modelos/9
+Method: DELETE
+Headers:
+  X-User-Id: 1
+
+Expected Response (200 OK):
+{
+  "message": "Modelo eliminado exitosamente"
+}
+
+═══════════════════════════════════════════════════════════════════
+5. INVENTARIO - Puerto 8083
+═══════════════════════════════════════════════════════════════════
+
+ GET - OBTENER TODOS LOS EQUIPOS
+─────────────────────────────────────────────────────────────────
+URL: http://localhost:8083/api/v1/equipos
+Method: GET
+Headers:
+  X-User-Id: 1
+
+Expected Response (200 OK):
+[
+  {
+    "idEquipo": 1,
+    "numeroSerie": "JD-2024-001",
+    "descripcion": "Tractor agrícola",
+    "idEstado": 1,
+    "idMarca": 1,
+    "idModelo": 1,
+    "marca": {"idMarca": 1, "nombre": "John Deere"},
+    "modelo": {"idModelo": 1, "nombre": "JD 5075E"}
+  }
+]
+
+
+ GET - OBTENER EQUIPO POR ID
+─────────────────────────────────────────────────────────────────
+URL: http://localhost:8083/api/v1/equipos/1
+Method: GET
+Headers:
+  X-User-Id: 1
+
+Expected Response (200 OK):
+{
+  "idEquipo": 1,
+  "numeroSerie": "JD-2024-001",
+  "descripcion": "Tractor agrícola",
+  "idEstado": 1,
+  "idMarca": 1,
+  "idModelo": 1,
+  "marca": {"idMarca": 1, "nombre": "John Deere"},
+  "modelo": {"idModelo": 1, "nombre": "JD 5075E"}
+}
+
+
+ POST - CREAR EQUIPO
+─────────────────────────────────────────────────────────────────
+URL: http://localhost:8083/api/v1/equipos/guardar
+Method: POST
+Headers:
+  X-User-Id: 1
+  Content-Type: application/json
+
+Body (JSON raw):
+{
+  "numeroSerie": "JD-2024-005",
+  "descripcion": "Tractor nuevo",
+  "idEstado": 1,
+  "idMarca": 1,
+  "idModelo": 1
+}
+
+Expected Response (201 CREATED):
+{
+  "idEquipo": 8,
+  "numeroSerie": "JD-2024-005",
+  "descripcion": "Tractor nuevo",
+  "idEstado": 1,
+  "idMarca": 1,
+  "idModelo": 1
+}
+
+
+ PUT - ACTUALIZAR EQUIPO
+─────────────────────────────────────────────────────────────────
+URL: http://localhost:8083/api/v1/equipos/modificar/8
+Method: PUT
+Headers:
+  X-User-Id: 1
+  Content-Type: application/json
+
+Body (JSON raw):
+{
+  "numeroSerie": "JD-2024-005-UPDATE",
+  "descripcion": "Tractor actualizado",
+  "idEstado": 2,
+  "idMarca": 1,
+  "idModelo": 1
+}
+
+Expected Response (200 OK):
+{
+  "idEquipo": 8,
+  "numeroSerie": "JD-2024-005-UPDATE",
+  "descripcion": "Tractor actualizado",
+  "idEstado": 2
+}
+
+
+ DELETE - ELIMINAR EQUIPO
+─────────────────────────────────────────────────────────────────
+URL: http://localhost:8083/api/v1/equipos/eliminar/8
+Method: DELETE
+Headers:
+  X-User-Id: 1
+
+Expected Response (200 OK):
+{
+  "message": "Equipo eliminado exitosamente"
+}
+
+
+ GET - OBTENER ESTADOS
+─────────────────────────────────────────────────────────────────
+URL: http://localhost:8083/api/v1/equipos/estados
+Method: GET
+Headers:
+  X-User-Id: 1
+
+Expected Response (200 OK):
+[
+  {"idEstado": 1, "nombre": "Disponible"},
+  {"idEstado": 2, "nombre": "En Uso"},
+  {"idEstado": 3, "nombre": "Mantenimiento"},
+  {"idEstado": 4, "nombre": "Dañado"}
+]
+
+═══════════════════════════════════════════════════════════════════
+6. PEDIDOS - Puerto 8085
+═══════════════════════════════════════════════════════════════════
+
+ GET - OBTENER TODOS LOS PEDIDOS
+─────────────────────────────────────────────────────────────────
+URL: http://localhost:8085/api/v1/pedidos
+Method: GET
+Headers:
+  X-User-Id: 1
+
+Expected Response (200 OK):
+[
+  {
+    "idPedido": 1,
+    "idUsuario": 1,
+    "idEquipo": 1,
+    "idEstado": 1,
+    "cantidad": 1,
+    "fechaPedido": "2026-06-03T10:30:00",
+    "tipo": {"idTipo": 1, "nombre": "Compra"}
+  }
+]
+
+
+ GET - OBTENER PEDIDO POR ID
+─────────────────────────────────────────────────────────────────
+URL: http://localhost:8085/api/v1/pedidos/1
+Method: GET
+Headers:
+  X-User-Id: 1
+
+Expected Response (200 OK):
+{
+  "pedido": {
+    "idPedido": 1,
+    "idUsuario": 1,
+    "idEquipo": 1,
+    "idEstado": 1,
+    "cantidad": 1,
+    "fechaPedido": "2026-06-03T10:30:00",
+    "tipo": {"idTipo": 1, "nombre": "Compra"}
+  },
+  "estado": {"idEstado": 1, "nombre": "Disponible"}
+}
+
+
+ POST - CREAR PEDIDO
+─────────────────────────────────────────────────────────────────
+URL: http://localhost:8085/api/v1/pedidos/crear
+Method: POST
+Headers:
+  X-User-Id: 1
+  Content-Type: application/json
+
+Body (JSON raw):
+{
+  "idUsuario": 1,
+  "idEquipo": 2,
+  "idTipo": 1,
+  "cantidad": 2,
+  "descripcion": "Pedido de prueba"
+}
+
+Expected Response (201 CREATED):
+{
+  "pedido": {
+    "idPedido": 5,
+    "idUsuario": 1,
+    "idEquipo": 2,
+    "idEstado": 1,
+    "cantidad": 2,
+    "fechaPedido": "2026-06-03T11:15:00"
+  },
+  "estado": {"idEstado": 1, "nombre": "Disponible"}
+}
+
+
+ PUT - ACTUALIZAR PEDIDO
+─────────────────────────────────────────────────────────────────
+URL: http://localhost:8085/api/v1/pedidos/modificar/5
+Method: PUT
+Headers:
+  X-User-Id: 1
+  Content-Type: application/json
+
+Body (JSON raw):
+{
+  "idUsuario": 1,
+  "idEquipo": 2,
+  "idTipo": 1,
+  "cantidad": 3,
+  "descripcion": "Pedido actualizado"
+}
+
+Expected Response (200 OK):
+{
+  "idPedido": 5,
+  "cantidad": 3,
+  "descripcion": "Pedido actualizado"
+}
+
+
+ DELETE - ELIMINAR PEDIDO
+─────────────────────────────────────────────────────────────────
+URL: http://localhost:8085/api/v1/pedidos/eliminar/5
+Method: DELETE
+Headers:
+  X-User-Id: 1
+
+Expected Response (200 OK):
+{
+  "message": "Pedido eliminado exitosamente"
+}
+
+═══════════════════════════════════════════════════════════════════
+7. PAGOS Y FACTURAS - Puerto 8087
+═══════════════════════════════════════════════════════════════════
+
+ GET - OBTENER TODAS LAS FACTURAS
+─────────────────────────────────────────────────────────────────
+URL: http://localhost:8087/api/v1/facturas
+Method: GET
+Headers:
+  X-User-Id: 1
+
+Expected Response (200 OK):
+[
+  {
+    "idFactura": 1,
+    "idPedido": 1,
+    "monto": 5000.00,
+    "fechaFactura": "2026-06-03"
+  }
+]
+
+
+ GET - OBTENER FACTURA POR ID
+─────────────────────────────────────────────────────────────────
+URL: http://localhost:8087/api/v1/facturas/1
+Method: GET
+Headers:
+  X-User-Id: 1
+
+Expected Response (200 OK):
+{
+  "idFactura": 1,
+  "idPedido": 1,
+  "monto": 5000.00,
+  "fechaFactura": "2026-06-03"
+}
+
+
+ POST - CREAR FACTURA
+─────────────────────────────────────────────────────────────────
+URL: http://localhost:8087/api/v1/facturas
+Method: POST
+Headers:
+  X-User-Id: 1
+  Content-Type: application/json
+
+Body (JSON raw):
+{
+  "idPedido": 2,
+  "monto": 7500.00,
+  "fechaFactura": "2026-06-03"
+}
+
+Expected Response (201 CREATED):
+{
+  "idFactura": 4,
+  "idPedido": 2,
+  "monto": 7500.00,
+  "fechaFactura": "2026-06-03"
+}
+
+
+ PUT - ACTUALIZAR FACTURA
+─────────────────────────────────────────────────────────────────
+URL: http://localhost:8087/api/v1/facturas/4
+Method: PUT
+Headers:
+  X-User-Id: 1
+  Content-Type: application/json
+
+Body (JSON raw):
+{
+  "idPedido": 2,
+  "monto": 8000.00,
+  "fechaFactura": "2026-06-03"
+}
+
+Expected Response (200 OK):
+{
+  "idFactura": 4,
+  "monto": 8000.00
+}
+
+
+ DELETE - ELIMINAR FACTURA
+─────────────────────────────────────────────────────────────────
+URL: http://localhost:8087/api/v1/facturas/4
+Method: DELETE
+Headers:
+  X-User-Id: 1
+
+Expected Response (200 OK):
+{
+  "message": "Factura eliminada exitosamente"
+}
+
+
+ GET - OBTENER TODOS LOS PAGOS
+─────────────────────────────────────────────────────────────────
+URL: http://localhost:8087/api/v1/pagos
+Method: GET
+Headers:
+  X-User-Id: 1
+
+Expected Response (200 OK):
+[
+  {
+    "idPago": 1,
+    "idFactura": 1,
+    "monto": 5000.00,
+    "fechaPago": "2026-06-03"
+  }
+]
+
+
+ GET - OBTENER PAGO POR ID
+─────────────────────────────────────────────────────────────────
+URL: http://localhost:8087/api/v1/pagos/1
+Method: GET
+Headers:
+  X-User-Id: 1
+
+Expected Response (200 OK):
+{
+  "idPago": 1,
+  "idFactura": 1,
+  "monto": 5000.00,
+  "fechaPago": "2026-06-03"
+}
+
+
+ POST - CREAR PAGO
+─────────────────────────────────────────────────────────────────
+URL: http://localhost:8087/api/v1/pagos
+Method: POST
+Headers:
+  X-User-Id: 1
+  Content-Type: application/json
+
+Body (JSON raw):
+{
+  "idFactura": 2,
+  "monto": 7500.00,
+  "fechaPago": "2026-06-03"
+}
+
+Expected Response (201 CREATED):
+{
+  "idPago": 3,
+  "idFactura": 2,
+  "monto": 7500.00,
+  "fechaPago": "2026-06-03"
+}
+
+
+ PUT - ACTUALIZAR PAGO
+─────────────────────────────────────────────────────────────────
+URL: http://localhost:8087/api/v1/pagos/3
+Method: PUT
+Headers:
+  X-User-Id: 1
+  Content-Type: application/json
+
+Body (JSON raw):
+{
+  "idFactura": 2,
+  "monto": 8000.00,
+  "fechaPago": "2026-06-04"
+}
+
+Expected Response (200 OK):
+{
+  "idPago": 3,
+  "monto": 8000.00
+}
+
+
+ DELETE - ELIMINAR PAGO
+─────────────────────────────────────────────────────────────────
+URL: http://localhost:8087/api/v1/pagos/3
+Method: DELETE
+Headers:
+  X-User-Id: 1
+
+Expected Response (200 OK):
+{
+  "message": "Pago eliminado exitosamente"
+}
+
+═══════════════════════════════════════════════════════════════════
+8. ENTREGAS - Puerto 8088
+═══════════════════════════════════════════════════════════════════
+
+ GET - OBTENER TODAS LAS ENTREGAS
+─────────────────────────────────────────────────────────────────
+URL: http://localhost:8088/api/v1/entregas
+Method: GET
+Headers:
+  X-User-Id: 1
+
+Expected Response (200 OK):
+[
+  {
+    "idEntrega": 1,
+    "idPedido": 1,
+    "estado": "En Tránsito",
+    "fechaEntrega": "2026-06-05"
+  }
+]
+
+
+ GET - OBTENER ENTREGA POR ID
+─────────────────────────────────────────────────────────────────
+URL: http://localhost:8088/api/v1/entregas/1
+Method: GET
+Headers:
+  X-User-Id: 1
+
+Expected Response (200 OK):
+{
+  "idEntrega": 1,
+  "idPedido": 1,
+  "estado": "En Tránsito",
+  "fechaEntrega": "2026-06-05"
+}
+
+
+ POST - CREAR ENTREGA
+─────────────────────────────────────────────────────────────────
+URL: http://localhost:8088/api/v1/entregas/crear
+Method: POST
+Headers:
+  X-User-Id: 1
+  Content-Type: application/json
+
+Body (JSON raw):
+{
+  "idPedido": 2,
+  "estado": "Pendiente",
+  "fechaEntrega": "2026-06-06"
+}
+
+Expected Response (201 CREATED):
+{
+  "idEntrega": 3,
+  "idPedido": 2,
+  "estado": "Pendiente",
+  "fechaEntrega": "2026-06-06"
+}
+
+
+ PUT - ACTUALIZAR ENTREGA
+─────────────────────────────────────────────────────────────────
+URL: http://localhost:8088/api/v1/entregas/actualizar/3
+Method: PUT
+Headers:
+  X-User-Id: 1
+  Content-Type: application/json
+
+Body (JSON raw):
+{
+  "idPedido": 2,
+  "estado": "En Tránsito",
+  "fechaEntrega": "2026-06-06"
+}
+
+Expected Response (200 OK):
+{
+  "idEntrega": 3,
+  "estado": "En Tránsito"
+}
+
+
+ DELETE - ELIMINAR ENTREGA
+─────────────────────────────────────────────────────────────────
+URL: http://localhost:8088/api/v1/entregas/eliminar/3
+Method: DELETE
+Headers:
+  X-User-Id: 1
+
+Expected Response (200 OK):
+{
+  "message": "Entrega eliminada exitosamente"
+}
+
+═══════════════════════════════════════════════════════════════════
+9. SOPORTE TÉCNICO - Puerto 8084
+═══════════════════════════════════════════════════════════════════
+
+ GET - OBTENER TODOS LOS TICKETS
+─────────────────────────────────────────────────────────────────
+URL: http://localhost:8084/api/v1/tickets
+Method: GET
+Headers:
+  X-User-Id: 1
+
+Expected Response (200 OK):
+[
+  {
+    "idTicket": 1,
+    "titulo": "Error en login",
+    "descripcion": "No puedo iniciar sesión",
+    "idUsuario": 2,
+    "fechaCreacion": "2026-06-03T09:00:00",
+    "estado": "Abierto"
+  }
+]
+
+
+ GET - OBTENER TICKET POR ID
+─────────────────────────────────────────────────────────────────
+URL: http://localhost:8084/api/v1/tickets/1
+Method: GET
+Headers:
+  X-User-Id: 1
+
+Expected Response (200 OK):
+{
+  "idTicket": 1,
+  "titulo": "Error en login",
+  "descripcion": "No puedo iniciar sesión",
+  "idUsuario": 2,
+  "fechaCreacion": "2026-06-03T09:00:00",
+  "estado": "Abierto"
+}
+
+
+ POST - CREAR TICKET
+─────────────────────────────────────────────────────────────────
+URL: http://localhost:8084/api/v1/tickets
+Method: POST
+Headers:
+  X-User-Id: 1
+  Content-Type: application/json
+
+Body (JSON raw):
+{
+  "titulo": "Error en registro",
+  "descripcion": "No puedo registrarme con mi email",
+  "idUsuario": 3
+}
+
+Expected Response (201 CREATED):
+{
+  "idTicket": 5,
+  "titulo": "Error en registro",
+  "descripcion": "No puedo registrarme con mi email",
+  "idUsuario": 3,
+  "estado": "Abierto"
+}
+
+
+PUT - ACTUALIZAR TICKET
+─────────────────────────────────────────────────────────────────
+URL: http://localhost:8084/api/v1/tickets/5
+Method: PUT
+Headers:
+  X-User-Id: 1
+  Content-Type: application/json
+
+Body (JSON raw):
+{
+  "titulo": "Error en registro - Prioridad Alta",
+  "descripcion": "No puedo registrarme con mi email - Urgente",
+  "estado": "En Progreso"
+}
+
+Expected Response (200 OK):
+{
+  "idTicket": 5,
+  "titulo": "Error en registro - Prioridad Alta",
+  "estado": "En Progreso"
+}
+
+
+ DELETE - ELIMINAR TICKET
+─────────────────────────────────────────────────────────────────
+URL: http://localhost:8084/api/v1/tickets/5
+Method: DELETE
+Headers:
+  X-User-Id: 1
+
+Expected Response (200 OK):
+{
+  "message": "Ticket eliminado exitosamente"
+}
+
+═══════════════════════════════════════════════════════════════════
+RESUMEN DE FLUJO COMPLETO
+═══════════════════════════════════════════════════════════════════
+
+Orden recomendado para pruebas completas:
+
+1. Login en AutenticacionNuevo (8082) → Obtener Token
+2. Obtener ID de usuario conectado (8082)
+3. Crear Marca en GestorMarcaYModelo (8086)
+4. Crear Modelo en GestorMarcaYModelo (8086)
+5. Crear Equipo en GestorInventario (8083)
+6. Crear Pedido en GestorPedidos (8085)
+7. Crear Factura en PagoFactura (8087)
+8. Crear Entrega en GestorEntregas (8088)
+9. Crear Ticket en SoporteTecnico (8084)

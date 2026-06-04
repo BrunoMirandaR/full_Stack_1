@@ -1,0 +1,77 @@
+# Agrotech - Guía de Despliegue de Microservicios
+
+Este repositorio contiene el ecosistema de microservicios para la plataforma de gestión agrícola Agrotech. Dado que los servicios comparten una base de datos centralizada (agrotech_db) y dependen de datos maestros precargados, es crítico seguir el orden de encendido detallado a continuación para evitar fallos de restricciones de clave foránea (Foreign Key) o tablas inexistentes.
+
+## Prerrequisitos
+
+Antes de iniciar los microservicios, asegúrate de tener corriendo tu entorno de base de datos local:
+* Motor: MySQL 8.0+
+* Base de datos: agrotech_db (Debe estar creada previamente en laragon, HeidiSQL).
+* Versión de Java: Java 21 (JDK 21.0.5, profe se que debi usar java 17 pero me di cuenta ahora que use el 21, perdoneme la vida)
+
+---
+
+## Orden de Encendido Obligatorio
+
+El despliegue se divide en 4 etapas secuenciales. No avances a la siguiente etapa hasta que los logs del servicio actual muestren que Tomcat ha iniciado correctamente.
+
+### Etapa 1: Infraestructura de Datos y Datos Maestros
+Estos servicios crean el núcleo relacional y las tablas base de las que dependen todos los demás módulos.
+
+1. **RolesyPermisos (Puerto 8089)**
+   * Función: Genera las tablas de roles y estructuras de seguridad iniciales.
+   * Espera: Verifica en los logs que Hibernate termine de estructurar el esquema.
+
+2. **GestorMarcaYModelo (Puerto 8086)**
+   * Función: Crea las tablas de marcas y modelos de maquinaria agrícola (John Deere, Case IH, etc.). Provee los endpoints necesarios para las precargas de inventario.
+
+### Etapa 2: Control de Acceso y Usuarios
+Una vez que las tablas de roles existen, se puede instanciar la gestión de cuentas.
+
+3. **GestionDeUsuarioNuevo (Puerto 8081)**
+   * Función: Crea la tabla de usuarios vinculando la clave foránea a la tabla de roles generada en la Etapa 1.
+
+### Etapa 3: Núcleo del Negocio (Inventario y Transacciones)
+Con las marcas, modelos y usuarios en la base de datos, los servicios operativos pueden conectarse e intercambiar datos mediante HTTP/Feign.
+
+4. **GestorInventario (Puerto 8083)**
+   * Función: Crea las tablas equipo y estado. Al arrancar, consume por HTTP al GestorMarcaYModelo para realizar la precarga automática de la maquinaria de prueba.
+5. **GestorPedidos (Puerto 8085)**
+   * Función: Genera las tablas de pedido y tipo. Mapea los flujos de solicitudes de los usuarios.
+6. **GestorEntregas (Puerto 8088)**
+   * Función: Levanta la tabla entrega para el despacho físico de la maquinaria asociada a los pedidos.
+7. **PagoFactura (Puerto 8087)**
+   * Función: Inicializa las tablas transaccionales de factura y pago.
+
+### Etapa 4: Servicios de Soporte y Seguridad Perimetral
+Módulos finales de atención al cliente y pasarela de autenticación.
+
+8. **SoporteTecnico (Puerto 8084)**
+   * Función: Crea las tablas de ticket, soporte y tiposoporte para la atención de incidentes en terreno.
+9. **AutenticacionNuevo (Puerto 8082)**
+   * Función: Registra el AuthenticationManager global de Spring Security para la validación perimetral de credenciales y tokens JWT.
+
+---
+
+## Tabla Resumen de Puertos
+
+| Servicio | Puerto | Etapa | Descripción |
+| :--- | :---: | :---: | :--- |
+| RolesyPermisos | 8089 | 1 | Base de seguridad y roles |
+| GestorMarcaYModelo | 8086 | 1 | Catálogo maestro de maquinaria |
+| GestionDeUsuarioNuevo | 8081 | 2 | Cuentas de usuarios del sistema |
+| GestorInventario | 8083 | 3 | Stock de equipos y comunicación sincrónica |
+| GestorPedidos | 8085 | 3 | Registro y flujo de compras/arriendos |
+| GestorEntregas | 8088 | 3 | Logística y estados de despacho |
+| PagoFactura | 8087 | 3 | Emisión de documentos y procesamiento de pagos |
+| SoporteTecnico | 8084 | 4 | Sistema de tickets e incidencias |
+| AutenticacionNuevo | 8082 | 4 | Autenticación y resguardo de endpoints |
+
+---
+
+## Verificación del Sistema
+
+Una vez encendidos los 9 microservicios:
+1. Dirígete a tu cliente de base de datos (HeidiSQL).
+2. Haz clic derecho sobre agrotech_db y selecciona Refrescar (F5).
+3. El modelo de datos completo aparecerá perfectamente vinculado y listo para interactuar con la capa frontend.
