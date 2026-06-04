@@ -1,0 +1,11 @@
+C:\Users\carlos\Documents\GitHub\Rocket\GestorInventario\src\main\java\com\example\GestorInventario\config\LoadDatabase.java
+C:\Users\carlos\Documents\GitHub\Rocket\GestorInventario\src\main\java\com\example\GestorInventario\controller\EquipoController.java
+C:\Users\carlos\Documents\GitHub\Rocket\GestorInventario\src\main\java\com\example\GestorInventario\GestorInventarioApplication.java
+C:\Users\carlos\Documents\GitHub\Rocket\GestorInventario\src\main\java\com\example\GestorInventario\model\Equipo.java
+C:\Users\carlos\Documents\GitHub\Rocket\GestorInventario\src\main\java\com\example\GestorInventario\model\Estado.java
+C:\Users\carlos\Documents\GitHub\Rocket\GestorInventario\src\main\java\com\example\GestorInventario\model\Marca.java
+C:\Users\carlos\Documents\GitHub\Rocket\GestorInventario\src\main\java\com\example\GestorInventario\model\Modelo.java
+C:\Users\carlos\Documents\GitHub\Rocket\GestorInventario\src\main\java\com\example\GestorInventario\repository\EquipoRepository.java
+C:\Users\carlos\Documents\GitHub\Rocket\GestorInventario\src\main\java\com\example\GestorInventario\repository\EstadoRepository.java
+C:\Users\carlos\Documents\GitHub\Rocket\GestorInventario\src\main\java\com\example\GestorInventario\service\EquipoService.java
+C:\Users\carlos\Documents\GitHub\Rocket\GestorInventario\src\main\java\com\example\GestorInventario\webclient\MarcaModeloClient.java

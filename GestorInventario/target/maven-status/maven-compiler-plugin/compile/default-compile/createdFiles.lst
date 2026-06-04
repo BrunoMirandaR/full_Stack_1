@@ -1,0 +1,11 @@
+com\example\GestorInventario\controller\EquipoController.class
+com\example\GestorInventario\model\Modelo.class
+com\example\GestorInventario\repository\EquipoRepository.class
+com\example\GestorInventario\config\LoadDatabase.class
+com\example\GestorInventario\GestorInventarioApplication.class
+com\example\GestorInventario\model\Equipo.class
+com\example\GestorInventario\webclient\MarcaModeloClient.class
+com\example\GestorInventario\service\EquipoService.class
+com\example\GestorInventario\model\Marca.class
+com\example\GestorInventario\model\Estado.class
+com\example\GestorInventario\repository\EstadoRepository.class
