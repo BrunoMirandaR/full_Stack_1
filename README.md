@@ -23,11 +23,10 @@
 
 | Nombre | Rol | Contacto |
 |--------|-----|----------|
-| [Nombre Estudiante 1] | Full Stack Developer | correo@example.com |
-| [Nombre Estudiante 2] | Backend Developer | correo@example.com |
-| [Nombre Estudiante 3] | Backend Developer | correo@example.com |
+| [Bruno Miranda] | Full Stack Developer | br.mirandar@duocuc.cl |
 
-*Proyecto desarrollado como parte del curso Full Stack 111 - DUOC UC*
+
+*Proyecto desarrollado como parte del curso Full Stack 1 - DUOC UC*
 
 ---
 
@@ -327,87 +326,48 @@ spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.MySQL8Dialect
 
 ### 1. Clonar o descargar el proyecto
 ```bash
-cd d:\duoc\fullstack111
+git clone [https://github.com/BrunoMirandaR/full_Stack_1.git](https://github.com/BrunoMirandaR/full_Stack_1.git)
 ```
 
 ### 2. Crear la base de datos
-```sql
-CREATE DATABASE agrotech_db CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+```Pasos rápidos en HeidiSQL/Laragon para ejecutarlo:
+Conéctate a tu sesión local de Laragon en HeidiSQL.
+
+Haz clic derecho sobre tu conexión (en la raíz del árbol de la izquierda) y selecciona Nueva pestaña de consulta (o presiona Ctrl + T).
+
+Pega el código de arriba.
+
+Presiona la tecla F9 o haz clic en el botón azul de Play en la barra de herramientas para ejecutarlo.
+
+Haz clic derecho en el árbol de la izquierda y selecciona Refrescar (F5) para ver tu ecosistema de microservicios creado y listo para recibir las tablas desde Spring Boot.
+
+CREATE DATABASE IF NOT EXISTS agrotech_db_autenticacion CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+CREATE DATABASE IF NOT EXISTS agrotech_db_gestion_usuarios CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+CREATE DATABASE IF NOT EXISTS agrotech_db_gestor_entregas CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+CREATE DATABASE IF NOT EXISTS agrotech_db_gestor_inventario CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+CREATE DATABASE IF NOT EXISTS agrotech_db_gestor_marca_modelo CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+CREATE DATABASE IF NOT EXISTS agrotech_db_gestor_pedidos CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+CREATE DATABASE IF NOT EXISTS agrotech_db_pago_factura CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+CREATE DATABASE IF NOT EXISTS agrotech_db_roles_permisos CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+CREATE DATABASE IF NOT EXISTS agrotech_db_soporte_tecnico CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 ```
 
 *Nota: Las tablas se crearán automáticamente con `spring.jpa.hibernate.ddl-auto=update`*
 
 ### 3. Iniciar los servicios en orden de dependencias
 
-#### **Opción A: Terminal Individual para cada servicio**
+#### **Abre la carpeta del microservicio específico en tu VisualStudioCode.
 
-**Terminal 1 - AutenticacionNuevo (8082)**
-```bash
-cd d:\duoc\fullstack111\AutenticacionNuevo
-mvn spring-boot:run
-```
+Navega en el árbol de archivos hasta la ruta del código fuente principal. Tomando como ejemplo tu servicio de Marcas y Modelos, la ruta exacta es:
+src/main/java/com/example/GestorMarcaYModelo/GestorMarcaYModeloApplication.java
 
-**Terminal 2 - RolesyPermisos (8089)**
-```bash
-cd d:\duoc\fullstack111\RolesyPermisos
-mvn spring-boot:run
-```
+Abre ese archivo .java.
 
-**Terminal 3 - GestionDeUsuarioNuevo (8081)**
-```bash
-cd d:\duoc\fullstack111\GestionDeUsuarioNuevo
-mvn spring-boot:run
-```
+Busca el método public static void main(String[] args).
 
-**Terminal 4 - GestorMarcaYModelo (8086)**
-```bash
-cd d:\duoc\fullstack111\GestorMarcaYModelo
-mvn spring-boot:run
-```
+Verás un botón flotante de texto arriba del método que dice "Run" o "Debug" (o puedes hacer clic derecho en cualquier parte del archivo y seleccionar Run Java).
 
-**Terminal 5 - GestorInventario (8083)**
-```bash
-cd d:\duoc\fullstack111\GestorInventario
-mvn spring-boot:run
-```
-
-**Terminal 6 - GestorPedidos (8085)**
-```bash
-cd d:\duoc\fullstack111\GestorPedidos
-mvn spring-boot:run
-```
-
-**Terminal 7 - PagoFactura (8087)**
-```bash
-cd d:\duoc\fullstack111\PagoFactura
-mvn spring-boot:run
-```
-
-**Terminal 8 - GestorEntregas (8088)**
-```bash
-cd d:\duoc\fullstack111\GestorEntregas
-mvn spring-boot:run
-```
-
-**Terminal 9 - SoporteTecnico (8084)**
-```bash
-cd d:\duoc\fullstack111\SoporteTecnico
-mvn spring-boot:run
-```
-
-#### **Opción B: Compilar todos a la vez**
-```bash
-cd d:\duoc\fullstack111
-
-# Compilar cada proyecto
-for /d %i in (*) do (
-  if exist "%i\pom.xml" (
-    cd %i
-    call mvn clean install
-    cd ..
-  )
-)
-```
+Al ejecutarlo, Spring Boot detectará la propiedad ddl-auto=update, creará automáticamente las tablas en la base de datos correspondiente de HeidiSQL y finalmente el componente LoadDatabase.java poblará los datos iniciales.
 
 ### 4. Verificar que todos los servicios estén corriendo
 
@@ -440,7 +400,7 @@ POST http://localhost:8082/auth/login
 GET http://localhost:8082/auth/conectados
 ```
 
-*Ver archivo `POSTMAN_EXAMPLES.txt` para ejemplos completos de cada endpoint*
+*Ver archivo `pruebas_para_postman.txt` para ejemplos completos de cada endpoint*
 
 ---
 
@@ -517,29 +477,11 @@ Content-Type: application/json (para POST/PUT)
 - **DTOs:** 10+
 - **Tests:** 45+ test classes
 
----
 
-##  Documentación Adicional
-
-- [Script de Base de Datos](Script_BD.txt) - SQL para crear la BD
-- [Ejemplos de Postman](POSTMAN_EXAMPLES.txt) - Ejemplos de requests
-- [README Individual de cada servicio](*/HELP.md) - Documentación específica
-
----
-
-##  Contribuciones
-
-Para cambios significativos:
-1. Crea una rama (`git checkout -b feature/nueva-funcionalidad`)
-2. Haz commit de tus cambios (`git commit -am 'Agrega nueva funcionalidad'`)
-3. Push a la rama (`git push origin feature/nueva-funcionalidad`)
-4. Abre un Pull Request
-
----
 
 ##  Licencia
 
-Este proyecto es de uso educativo para el curso Full Stack 111 de DUOC UC.
+Este proyecto es de uso educativo para el curso Full Stack 1 de DUOC UC.
 
 ---
 
@@ -553,7 +495,7 @@ Para preguntas o problemas, contacta a los desarrolladores del equipo o revisa l
 
 - [ ] Java 21+ instalado
 - [ ] MySQL 8+ corriendo
-- [ ] Base de datos `agrotech_db` creada
+- [ ] Bases de datos `agrotech_db` creadas
 - [ ] Maven compiló todos los servicios
 - [ ] AutenticacionNuevo iniciado (8082)
 - [ ] RolesyPermisos iniciado (8089)

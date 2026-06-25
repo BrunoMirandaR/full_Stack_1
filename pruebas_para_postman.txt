@@ -42,30 +42,6 @@ Expected Response (200 OK):
 2. GESTIÓN DE USUARIOS - Puerto 8081
 ═══════════════════════════════════════════════════════════════════
 
- GET - OBTENER TODOS LOS USUARIOS
-─────────────────────────────────────────────────────────────────
-URL: http://localhost:8081/api/v1/usuarios
-Method: GET
-Headers:
-  X-User-Id: 1
-
-Expected Response (200 OK):
-[
-  {
-    "idUsuario": 1,
-    "username": "admin",
-    "email": "admin@example.com",
-    "idRol": 1
-  },
-  {
-    "idUsuario": 2,
-    "username": "usuario1",
-    "email": "usuario1@example.com",
-    "idRol": 3
-  }
-]
-
-
  GET - OBTENER USUARIO POR ID
 ─────────────────────────────────────────────────────────────────
 URL: http://localhost:8081/api/v1/usuarios/1
@@ -87,15 +63,18 @@ Expected Response (200 OK):
 URL: http://localhost:8081/api/v1/usuarios/register
 Method: POST
 Headers:
-  X-User-Id: 1
+  X-User-Id: 8
   Content-Type: application/json
 
 Body (JSON raw):
 {
-  "username": "nuevouser",
-  "password": "password123",
-  "email": "nuevouser@example.com",
-  "idRol": 3
+"nombre": "Juan",
+"appaterno": "Pérez",
+"apmaterno": "Gómez",
+"rut": "12345678-9",
+"username": "juanperez",
+"password": "P@ssw0rd123",
+"idRol": 8
 }
 
 Expected Response (200 OK):
@@ -117,11 +96,14 @@ Headers:
 
 Body (JSON raw):
 {
-  "username": "nuevouser_updated",
-  "email": "newemail@example.com",
-  "idRol": 2
+  "nombre": "Juan",
+  "appaterno": "Pérez",
+  "apmaterno": "Gómez",
+  "rut": "12345678-9",
+  "username": "juanperez",
+  "password": "NuevaClave123",
+  "idRol": 8
 }
-
 Expected Response (200 OK):
 {
   "idUsuario": 8,
