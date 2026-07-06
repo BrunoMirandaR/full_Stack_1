@@ -1,16 +1,16 @@
 package com.example.GestorInventario.service;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.when;
-
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import static org.mockito.Mockito.when;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.example.GestorInventario.model.Equipo;
@@ -90,5 +90,32 @@ public class EstadoServiceTest {
 
         assertThat(estado).isNotNull();
         assertThat(estado.getNombreEstado()).isEqualTo("Disponible");
+    }
+
+    @Test
+    void testBuscarEquiposPorEstadoNotFound() {
+        when(estadoRepository.findByNombreEstado("Inexistente")).thenReturn(Optional.empty());
+
+        assertThatThrownBy(() -> estadoService.buscarEquiposPorEstado("Inexistente"))
+                .isInstanceOf(RuntimeException.class)
+                .hasMessageContaining("Estado no encontrado");
+    }
+
+    @Test
+    void testObtenerEstadoPorIdNotFound() {
+        when(estadoRepository.findById(99)).thenReturn(Optional.empty());
+
+        assertThatThrownBy(() -> estadoService.obtenerEstadoPorId(99))
+                .isInstanceOf(RuntimeException.class)
+                .hasMessageContaining("Estado no encontrado con id: 99");
+    }
+
+    @Test
+    void testMostrarTodosLosEstadosWhenRepositoryFails() {
+        when(estadoRepository.findAll()).thenThrow(new RuntimeException("boom"));
+
+        assertThatThrownBy(() -> estadoService.mostrarTodosLosEstados())
+                .isInstanceOf(RuntimeException.class)
+                .hasMessageContaining("Error al obtener los estados");
     }
 }

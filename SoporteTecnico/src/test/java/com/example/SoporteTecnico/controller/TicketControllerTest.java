@@ -97,7 +97,7 @@ public class TicketControllerTest {
                 }
                 """;
 
-        mockMvc.perform(post("/api/v1/tickets")
+        mockMvc.perform(post("/api/v1/tickets/crear")
                 .header("X-User-Id", idUserConectado)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(jsonBody))
@@ -112,7 +112,7 @@ public class TicketControllerTest {
                 .thenReturn(ResponseEntity.ok().build());
         when(sopService.deleteTicketById(1)).thenReturn(true);
 
-        mockMvc.perform(delete("/api/v1/tickets/1")
+        mockMvc.perform(delete("/api/v1/tickets/eliminar/1")
                 .header("X-User-Id", idUserConectado))
                 .andExpect(status().isOk())
                 .andExpect(content().string("Ticket eliminado correctamente."));
@@ -138,7 +138,7 @@ public class TicketControllerTest {
                 }
                 """;
 
-        mockMvc.perform(put("/api/v1/tickets/1")
+        mockMvc.perform(put("/api/v1/tickets/modificar/1")
                 .header("X-User-Id", idUserConectado)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(jsonBody))

@@ -6,16 +6,16 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import static org.mockito.ArgumentMatchers.any;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.example.GestorInventario.model.Equipo;
 import com.example.GestorInventario.model.Estado;
@@ -129,5 +129,52 @@ public class EquipoServiceTest {
         equipoService.eliminarEquipo(1);
 
         verify(equipoRepository).deleteById(1);
+    }
+
+    @Test
+    void testGuardarEquipoWhenMarcaIsNull() {
+        Equipo equipoEntrada = new Equipo();
+        equipoEntrada.setIdMarca(10);
+        equipoEntrada.setIdModelo(20);
+        equipoEntrada.setEstado(new Estado(1, "Disponible"));
+
+        when(marcaClient.obtenerMarcaPorId(10)).thenReturn(null);
+
+        assertThatThrownBy(() -> equipoService.guardarEquipo(equipoEntrada))
+                .isInstanceOf(RuntimeException.class)
+                .hasMessageContaining("Marca no encontrada");
+    }
+
+    @Test
+    void testGuardarEquipoWhenModeloIsNull() {
+        Equipo equipoEntrada = new Equipo();
+        equipoEntrada.setIdMarca(10);
+        equipoEntrada.setIdModelo(20);
+        equipoEntrada.setEstado(new Estado(1, "Disponible"));
+
+        when(marcaClient.obtenerMarcaPorId(10)).thenReturn(Map.of("idMarca", 10, "nombre", "Marca Test"));
+        when(modeloClient.obtenerModeloPorId(20)).thenReturn(null);
+
+        assertThatThrownBy(() -> equipoService.guardarEquipo(equipoEntrada))
+                .isInstanceOf(RuntimeException.class)
+                .hasMessageContaining("Modelo no encontrado");
+    }
+
+    @Test
+    void testModificarEquipoNotFound() {
+        when(equipoRepository.findById(99)).thenReturn(Optional.empty());
+
+        assertThatThrownBy(() -> equipoService.modificarEquipo(99, new Equipo()))
+                .isInstanceOf(RuntimeException.class)
+                .hasMessageContaining("Equipo no encontrado con ID: 99");
+    }
+
+    @Test
+    void testEliminarEquipoNotFound() {
+        when(equipoRepository.existsById(99)).thenReturn(false);
+
+        assertThatThrownBy(() -> equipoService.eliminarEquipo(99))
+                .isInstanceOf(RuntimeException.class)
+                .hasMessageContaining("Equipo no encontrado");
     }
 }

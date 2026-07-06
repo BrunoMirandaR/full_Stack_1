@@ -1,0 +1,13 @@
+C:\Users\bruno\tiendamascotas\full_Stack_1\GestionDeUsuarioNuevo\src\main\java\com\example\GestionUsuarios\auth\AuthResponse.java
+C:\Users\bruno\tiendamascotas\full_Stack_1\GestionDeUsuarioNuevo\src\main\java\com\example\GestionUsuarios\auth\RegisterRequest.java
+C:\Users\bruno\tiendamascotas\full_Stack_1\GestionDeUsuarioNuevo\src\main\java\com\example\GestionUsuarios\config\AppConfig.java
+C:\Users\bruno\tiendamascotas\full_Stack_1\GestionDeUsuarioNuevo\src\main\java\com\example\GestionUsuarios\config\LoadDatabase.java
+C:\Users\bruno\tiendamascotas\full_Stack_1\GestionDeUsuarioNuevo\src\main\java\com\example\GestionUsuarios\config\SecurityConfig.java
+C:\Users\bruno\tiendamascotas\full_Stack_1\GestionDeUsuarioNuevo\src\main\java\com\example\GestionUsuarios\controller\RegistrationController.java
+C:\Users\bruno\tiendamascotas\full_Stack_1\GestionDeUsuarioNuevo\src\main\java\com\example\GestionUsuarios\GestionUsuariosApplication.java
+C:\Users\bruno\tiendamascotas\full_Stack_1\GestionDeUsuarioNuevo\src\main\java\com\example\GestionUsuarios\jwt\JwtService.java
+C:\Users\bruno\tiendamascotas\full_Stack_1\GestionDeUsuarioNuevo\src\main\java\com\example\GestionUsuarios\model\User.java
+C:\Users\bruno\tiendamascotas\full_Stack_1\GestionDeUsuarioNuevo\src\main\java\com\example\GestionUsuarios\repository\UserRepository.java
+C:\Users\bruno\tiendamascotas\full_Stack_1\GestionDeUsuarioNuevo\src\main\java\com\example\GestionUsuarios\service\RegistrationService.java
+C:\Users\bruno\tiendamascotas\full_Stack_1\GestionDeUsuarioNuevo\src\main\java\com\example\GestionUsuarios\service\UserService.java
+C:\Users\bruno\tiendamascotas\full_Stack_1\GestionDeUsuarioNuevo\src\main\java\com\example\GestionUsuarios\webclient\RoleClient.java

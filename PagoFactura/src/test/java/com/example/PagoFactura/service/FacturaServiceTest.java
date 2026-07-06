@@ -1,20 +1,20 @@
 package com.example.PagoFactura.service;
 
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-import static org.assertj.core.api.Assertions.assertThat;
-
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import static org.mockito.ArgumentMatchers.any;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.example.PagoFactura.Model.Factura;
@@ -99,5 +99,41 @@ public class FacturaServiceTest {
         facturaService.eliminarFactura(idFactura);
 
         verify(facturaRepository).deleteById(idFactura);
+    }
+
+    @Test
+    void testGenerarFacturaDesdePedido_whenPedidoMissing_shouldThrow() {
+        when(pedidoClient.obtenerPedidoPorId(99)).thenReturn(Optional.empty());
+
+        assertThatThrownBy(() -> facturaService.generarFacturaDesdePedido(99))
+                .isInstanceOf(RuntimeException.class)
+                .hasMessageContaining("Pedido no encontrado");
+    }
+
+    @Test
+    void testObtenerFacturaPorId_whenMissing_shouldThrow() {
+        when(facturaRepository.findById(99)).thenReturn(Optional.empty());
+
+        assertThatThrownBy(() -> facturaService.obtenerFacturaPorId(99))
+                .isInstanceOf(RuntimeException.class)
+                .hasMessageContaining("Factura no encontrada");
+    }
+
+    @Test
+    void testMarcarComoPagada_whenMissing_shouldThrow() {
+        when(facturaRepository.findById(99)).thenReturn(Optional.empty());
+
+        assertThatThrownBy(() -> facturaService.marcarComoPagada(99))
+                .isInstanceOf(RuntimeException.class)
+                .hasMessageContaining("Factura no encontrada");
+    }
+
+    @Test
+    void testEliminarFactura_whenMissing_shouldThrow() {
+        when(facturaRepository.existsById(99)).thenReturn(false);
+
+        assertThatThrownBy(() -> facturaService.eliminarFactura(99))
+                .isInstanceOf(RuntimeException.class)
+                .hasMessageContaining("Factura no encontrada");
     }
 }

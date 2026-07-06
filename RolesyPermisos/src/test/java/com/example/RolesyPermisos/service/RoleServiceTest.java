@@ -1,18 +1,18 @@
 package com.example.RolesyPermisos.service;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-
 import java.util.List;
 import java.util.Optional;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.example.RolesyPermisos.model.Role;
@@ -119,6 +119,51 @@ public class RoleServiceTest {
 
         assertEquals("Admin", resultado.getNombre());
         verify(roleRepository).findByNombre("Admin");
+    }
+
+    @Test
+    void obtenerRolPorIdCuandoNoExisteLanzaExcepcion() {
+        when(roleRepository.findById(99)).thenReturn(Optional.empty());
+
+        assertThatThrownBy(() -> roleService.obtenerRolPorId(99))
+                .isInstanceOf(RuntimeException.class)
+                .hasMessageContaining("Rol no encontrado");
+    }
+
+    @Test
+    void eliminarRolCuandoNoExisteLanzaExcepcion() {
+        when(roleRepository.existsById(99)).thenReturn(false);
+
+        assertThatThrownBy(() -> roleService.eliminarRol(99))
+                .isInstanceOf(RuntimeException.class)
+                .hasMessageContaining("No se encontró el rol");
+    }
+
+    @Test
+    void obtenerRolPorNombreCuandoNoExisteLanzaExcepcion() {
+        when(roleRepository.findByNombre("Invitado")).thenReturn(Optional.empty());
+
+        assertThatThrownBy(() -> roleService.obtenerRolPorNombre("Invitado"))
+                .isInstanceOf(RuntimeException.class)
+                .hasMessageContaining("Rol no encontrado con nombre");
+    }
+
+    @Test
+    void actualizarRolActualizaElNombreYDevuelveElRolGuardado() {
+        Role existente = new Role();
+        existente.setIdRole(7);
+        existente.setNombre("Antiguo");
+
+        Role actualizado = new Role();
+        actualizado.setNombre("Nuevo");
+
+        when(roleRepository.findById(7)).thenReturn(Optional.of(existente));
+        when(roleRepository.save(existente)).thenReturn(existente);
+
+        Role resultado = roleService.actualizarRol(7, actualizado);
+
+        assertThat(resultado.getNombre()).isEqualTo("Nuevo");
+        verify(roleRepository).save(existente);
     }
 
 }

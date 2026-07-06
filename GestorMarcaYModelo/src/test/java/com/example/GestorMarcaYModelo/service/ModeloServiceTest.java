@@ -4,15 +4,15 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
-
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.example.GestorMarcaYModelo.model.Marca;
@@ -49,7 +49,7 @@ public class ModeloServiceTest {
         
         modeloService.eliminarModelo(1);
 
-        Mockito.verify(modeloRepository).delete(mockModelo);
+        verify(modeloRepository).delete(mockModelo);
     }
 
 
@@ -85,6 +85,38 @@ public class ModeloServiceTest {
     assertThat(resultado.getMarca()).isEqualTo(marcaMock);
     assertThat(resultado.getNombre()).isEqualTo("Modelo Test");
 }
+
+    @Test
+    void testGuardarModelo_sinIdMarcaLanzaExcepcion() {
+        Modelo modelo = new Modelo();
+        modelo.setNombre("Modelo sin marca");
+
+        assertThatThrownBy(() -> modeloService.guardarModelo(modelo))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining("idMarca es obligatorio");
+    }
+
+    @Test
+    void testGuardarModelo_marcaInexistenteLanzaExcepcion() {
+        Modelo modelo = new Modelo();
+        modelo.setIdMarca(99);
+        modelo.setNombre("Modelo sin marca real");
+
+        when(marcaRepository.findById(99)).thenReturn(Optional.empty());
+
+        assertThatThrownBy(() -> modeloService.guardarModelo(modelo))
+                .isInstanceOf(jakarta.persistence.EntityNotFoundException.class)
+                .hasMessageContaining("Marca no encontrada");
+    }
+
+    @Test
+    void testEliminarModelo_noExisteLanzaExcepcion() {
+        when(modeloRepository.findById(99)).thenReturn(Optional.empty());
+
+        assertThatThrownBy(() -> modeloService.eliminarModelo(99))
+                .isInstanceOf(RuntimeException.class)
+                .hasMessageContaining("Modelo no encontrado");
+    }
 
 }
 

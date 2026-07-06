@@ -80,7 +80,7 @@ public class TipoControllerTest {
 
         String json = new ObjectMapper().writeValueAsString(tipoEntrada);
 
-        mockMvc.perform(post("/api/v1/tipos")
+        mockMvc.perform(post("/api/v1/tipos/crear")
                 .header("X-User-Id", 3)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(json))

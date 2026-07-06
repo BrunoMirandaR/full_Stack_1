@@ -1,18 +1,18 @@
 package com.example.RolesyPermisos.service;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-
 import java.util.List;
 import java.util.Optional;
 
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import static org.mockito.ArgumentMatchers.any;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.example.RolesyPermisos.model.Permiso;
@@ -96,5 +96,32 @@ public class PermisoServiceTest {
         assertEquals("NuevoNombre", resultado.getNombre());
         verify(permisoRepository).findById(1);
         verify(permisoRepository).save(existente);
+    }
+
+    @Test
+    void obtenerPermisoPorIdCuandoNoExisteLanzaExcepcion() {
+        when(permisoRepository.findById(9)).thenReturn(Optional.empty());
+
+        assertThatThrownBy(() -> permisoService.obtenerPermisoPorId(9))
+                .isInstanceOf(RuntimeException.class)
+                .hasMessageContaining("Permiso no encontrado");
+    }
+
+    @Test
+    void eliminarPermisoCuandoNoExisteLanzaExcepcion() {
+        when(permisoRepository.existsById(9)).thenReturn(false);
+
+        assertThatThrownBy(() -> permisoService.eliminarPermisoPorId(9))
+                .isInstanceOf(RuntimeException.class)
+                .hasMessageContaining("Permiso no encontrado");
+    }
+
+    @Test
+    void actualizarPermisoCuandoNoExisteLanzaExcepcion() {
+        when(permisoRepository.findById(9)).thenReturn(Optional.empty());
+
+        assertThatThrownBy(() -> permisoService.actualizarPermiso(9, "Nuevo"))
+                .isInstanceOf(RuntimeException.class)
+                .hasMessageContaining("Permiso no encontrado");
     }
 }
