@@ -10,12 +10,15 @@ import org.springframework.web.reactive.function.client.WebClient;
 import lombok.extern.slf4j.Slf4j;
 import reactor.core.publisher.Mono;
 
-@Slf4j // para registrar mensajes de log
+@Slf4j
 @Component
 public class RoleClient {
+
         private final WebClient webClientRol;
 
+        // Inyectamos la URL directamente en el constructor usando la propiedad limpia del archivo application.properties
         public RoleClient(@Value("${rol-service.url}") String rolServiceUrl) {
+                log.info("Inicializando RoleClient con la URL de Docker interna: {}", rolServiceUrl);
                 this.webClientRol = WebClient.builder()
                                 .baseUrl(rolServiceUrl)
                                 .build();

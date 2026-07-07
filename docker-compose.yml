@@ -1,5 +1,3 @@
-version: '3.8'
-
 networks:
   agrotech-network:
     driver: bridge
@@ -7,7 +5,7 @@ networks:
 services:
 
   # ========================================================
-  # ETAPA 1: BASES Y CATÁLOGOS MAESTROS
+  # ETAPA 1: INFRAESTRUCTURA DE DATOS Y DATOS MAESTROS
   # ========================================================
   roles-permisos:
     build: ./RolesyPermisos
@@ -16,11 +14,6 @@ services:
       - "8089:8089"
     networks:
       - agrotech-network
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8089/actuator/health"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
 
   gestor-marca-modelo:
     build: ./GestorMarcaYModelo
@@ -29,14 +22,9 @@ services:
       - "8086:8086"
     networks:
       - agrotech-network
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8086/actuator/health"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
 
   # ========================================================
-  # ETAPA 2: GESTIÓN DE USUARIOS
+  # ETAPA 2: CONTROL DE ACCESO Y USUARIOS
   # ========================================================
   gestion-usuario:
     build: ./GestionDeUsuarioNuevo
@@ -44,20 +32,13 @@ services:
     ports:
       - "8081:8081"
     depends_on:
-      roles-permisos:
-        condition: service_healthy
-      gestor-marca-modelo:
-        condition: service_healthy
+      - roles-permisos
+      - gestor-marca-modelo
     networks:
       - agrotech-network
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8081/actuator/health"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
 
   # ========================================================
-  # ETAPA 3: NÚCLEO DE NEGOCIO Y OPERACIONES
+  # ETAPA 3: NÚCLEO DEL NEGOCIO (INVENTARIO Y TRANSACCIONES)
   # ========================================================
   gestor-inventario:
     build: ./GestorInventario
@@ -65,15 +46,9 @@ services:
     ports:
       - "8083:8083"
     depends_on:
-      gestion-usuario:
-        condition: service_healthy
+      - gestion-usuario
     networks:
       - agrotech-network
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8083/actuator/health"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
 
   gestor-pedidos:
     build: ./GestorPedidos
@@ -81,15 +56,9 @@ services:
     ports:
       - "8085:8085"
     depends_on:
-      gestion-usuario:
-        condition: service_healthy
+      - gestion-usuario
     networks:
       - agrotech-network
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8085/actuator/health"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
 
   gestor-entregas:
     build: ./GestorEntregas
@@ -97,15 +66,9 @@ services:
     ports:
       - "8088:8088"
     depends_on:
-      gestion-usuario:
-        condition: service_healthy
+      - gestion-usuario
     networks:
       - agrotech-network
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8088/actuator/health"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
 
   pago-factura:
     build: ./PagoFactura
@@ -113,18 +76,12 @@ services:
     ports:
       - "8087:8087"
     depends_on:
-      gestion-usuario:
-        condition: service_healthy
+      - gestion-usuario
     networks:
       - agrotech-network
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8087/actuator/health"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
 
   # ========================================================
-  # ETAPA 4: SOPORTE Y RESGUARDO FINAL
+  # ETAPA 4: SERVICIOS DE SOPORTE Y SEGURIDAD PERIMETRAL
   # ========================================================
   soporte-tecnico:
     build: ./SoporteTecnico
@@ -132,14 +89,10 @@ services:
     ports:
       - "8084:8084"
     depends_on:
-      gestor-inventario:
-        condition: service_healthy
-      gestor-pedidos:
-        condition: service_healthy
-      gestor-entregas:
-        condition: service_healthy
-      pago-factura:
-        condition: service_healthy
+      - gestor-inventario
+      - gestor-pedidos
+      - gestor-entregas
+      - pago-factura
     networks:
       - agrotech-network
 
@@ -149,13 +102,6 @@ services:
     ports:
       - "8082:8082"
     depends_on:
-      gestor-inventario:
-        condition: service_healthy
-      gestor-pedidos:
-        condition: service_healthy
-      gestor-entregas:
-        condition: service_healthy
-      pago-factura:
-        condition: service_healthy
+      - gestion-usuario
     networks:
       - agrotech-network
