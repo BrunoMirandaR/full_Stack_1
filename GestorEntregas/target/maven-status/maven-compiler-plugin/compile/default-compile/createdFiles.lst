@@ -1,0 +1,12 @@
+com\example\GestorEntregas\service\AutorizacionService.class
+com\example\GestorEntregas\controller\EntregaController.class
+com\example\GestorEntregas\webclient\PedidoClient$1.class
+com\example\GestorEntregas\webclient\EstadoClient$1.class
+com\example\GestorEntregas\webclient\EstadoClient.class
+com\example\GestorEntregas\service\EntregaService.class
+com\example\GestorEntregas\webclient\UsuarioConectadoClient.class
+com\example\GestorEntregas\webclient\PedidoClient.class
+com\example\GestorEntregas\model\Entrega.class
+com\example\GestorEntregas\repository\EntregaRepository.class
+com\example\GestorEntregas\GestorEntregasApplication.class
+com\example\GestorEntregas\webclient\UsuarioClient.class

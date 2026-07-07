@@ -1,8 +1,16 @@
+com\example\GestorInventario\webclient\MarcaClient$1.class
+com\example\GestorInventario\webclient\MarcaClient.class
+com\example\GestorInventario\webclient\ModeloClient.class
 com\example\GestorInventario\model\Equipo.class
+com\example\GestorInventario\webclient\UsuarioClient.class
+com\example\GestorInventario\webclient\ModeloClient$1.class
 com\example\GestorInventario\repository\EstadoRepository.class
 com\example\GestorInventario\controller\EquipoController.class
 com\example\GestorInventario\repository\EquipoRepository.class
 com\example\GestorInventario\config\LoadDatabase.class
 com\example\GestorInventario\GestorInventarioApplication.class
+com\example\GestorInventario\service\AutorizacionService.class
 com\example\GestorInventario\service\EquipoService.class
+com\example\GestorInventario\service\EstadoService.class
+com\example\GestorInventario\webclient\UsuarioConectadoClient.class
 com\example\GestorInventario\model\Estado.class

@@ -1,0 +1,14 @@
+com\example\SoporteTecnico\model\TipoSoporte.class
+com\example\SoporteTecnico\controller\TipoSoporteController.class
+com\example\SoporteTecnico\repository\TipoSoporteRepository.class
+com\example\SoporteTecnico\service\SoporteTecnicoService.class
+com\example\SoporteTecnico\service\AutorizacionService.class
+com\example\SoporteTecnico\model\Soporte.class
+com\example\SoporteTecnico\controller\SoporteController.class
+com\example\SoporteTecnico\SoporteTecnicoApplication.class
+com\example\SoporteTecnico\webclient\UsuarioConectadoClient.class
+com\example\SoporteTecnico\webclient\UsuarioUser.class
+com\example\SoporteTecnico\repository\SoporteRepository.class
+com\example\SoporteTecnico\controller\TicketController.class
+com\example\SoporteTecnico\repository\TicketRepository.class
+com\example\SoporteTecnico\model\Ticket.class

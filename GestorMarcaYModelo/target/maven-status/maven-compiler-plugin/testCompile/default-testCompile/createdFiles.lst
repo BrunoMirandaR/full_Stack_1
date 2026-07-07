@@ -1,0 +1,6 @@
+com\example\GestorMarcaYModelo\GestorMarcaYModeloApplicationTests.class
+com\example\GestorMarcaYModelo\config\LoadDatabaseTest.class
+com\example\GestorMarcaYModelo\service\MarcaServiceTest.class
+com\example\GestorMarcaYModelo\controller\ModeloControllerTest.class
+com\example\GestorMarcaYModelo\service\ModeloServiceTest.class
+com\example\GestorMarcaYModelo\controller\MarcaControllerTest.class

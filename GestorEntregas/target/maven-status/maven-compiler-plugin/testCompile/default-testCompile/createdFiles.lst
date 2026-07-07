@@ -1,0 +1,4 @@
+com\example\GestorEntregas\GestorEntregasApplicationTests.class
+com\example\GestorEntregas\controller\EntregaControllerTest.class
+com\example\GestorEntregas\service\EntregaServiceTest.class
+com\example\GestorEntregas\service\AutorizacionServiceTest.class

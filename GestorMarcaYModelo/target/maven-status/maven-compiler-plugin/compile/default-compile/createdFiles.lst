@@ -1,0 +1,10 @@
+com\example\GestorMarcaYModelo\repository\MarcaRepository.class
+com\example\GestorMarcaYModelo\controller\MarcaController.class
+com\example\GestorMarcaYModelo\controller\ModeloController.class
+com\example\GestorMarcaYModelo\model\Marca.class
+com\example\GestorMarcaYModelo\GestorMarcaYModeloApplication.class
+com\example\GestorMarcaYModelo\repository\ModeloRepository.class
+com\example\GestorMarcaYModelo\model\Modelo.class
+com\example\GestorMarcaYModelo\config\LoadDatabase.class
+com\example\GestorMarcaYModelo\service\MarcaService.class
+com\example\GestorMarcaYModelo\service\ModeloService.class

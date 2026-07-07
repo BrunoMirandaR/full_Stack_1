@@ -1,1 +1,11 @@
+com\example\GestorInventario\service\AutorizacionServiceTest.class
+com\example\GestorInventario\GestorInventarioApplicationTests$NoopDatabaseLoaderConfig.class
+com\example\GestorInventario\service\EquipoServiceTest.class
+com\example\GestorInventario\config\LoadDatabaseTest.class
+com\example\GestorInventario\webclient\MarcaClientTest.class
+com\example\GestorInventario\webclient\ModeloClientTest.class
+com\example\GestorInventario\controller\EquipoControllerTest.class
+com\example\GestorInventario\webclient\MarcaClientTest$MarcaHandler.class
 com\example\GestorInventario\GestorInventarioApplicationTests.class
+com\example\GestorInventario\service\EstadoServiceTest.class
+com\example\GestorInventario\webclient\ModeloClientTest$ModeloHandler.class

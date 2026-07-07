@@ -1,0 +1,9 @@
+com\example\PagoFactura\controller\PagoControllerTest.class
+com\example\PagoFactura\service\PagoServiceTest.class
+com\example\PagoFactura\WebClient\PedidoClientTest.class
+com\example\PagoFactura\controller\FacturaControllerTest.class
+com\example\PagoFactura\service\AutorizacionServiceTest.class
+com\example\PagoFactura\service\FacturaServiceTest.class
+com\example\PagoFactura\config\LoadDatabaseTest.class
+com\example\PagoFactura\PagoFacturaApplicationTests.class
+com\example\PagoFactura\WebClient\PedidoClientTest$PedidoHandler.class

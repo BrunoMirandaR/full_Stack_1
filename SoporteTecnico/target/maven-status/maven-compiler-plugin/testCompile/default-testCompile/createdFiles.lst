@@ -1,0 +1,6 @@
+com\example\SoporteTecnico\controller\SoporteControllerTest.class
+com\example\SoporteTecnico\controller\TicketControllerTest.class
+com\example\SoporteTecnico\SoporteTecnicoApplicationTests.class
+com\example\SoporteTecnico\service\SoporteTecnicoServiceTest.class
+com\example\SoporteTecnico\service\AutorizacionServiceTest.class
+com\example\SoporteTecnico\controller\TipoSoporteControllerTest.class

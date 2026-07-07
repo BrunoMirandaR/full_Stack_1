@@ -1,0 +1,13 @@
+com\example\RolesyPermisos\model\Role.class
+com\example\RolesyPermisos\service\RoleService.class
+com\example\RolesyPermisos\webclient\UsuarioConectadoClient.class
+com\example\RolesyPermisos\service\PermisoService.class
+com\example\RolesyPermisos\repository\PermisoRepository.class
+com\example\RolesyPermisos\RolesyPermisosApplication.class
+com\example\RolesyPermisos\webclient\UsuarioClient.class
+com\example\RolesyPermisos\config\LoadDatabase.class
+com\example\RolesyPermisos\model\Permiso.class
+com\example\RolesyPermisos\repository\RoleRepository.class
+com\example\RolesyPermisos\controller\PermisoController.class
+com\example\RolesyPermisos\controller\RolController.class
+com\example\RolesyPermisos\service\AutorizacionService.class

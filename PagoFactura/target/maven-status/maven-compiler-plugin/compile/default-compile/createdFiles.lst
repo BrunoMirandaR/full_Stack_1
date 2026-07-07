@@ -1,0 +1,14 @@
+com\example\PagoFactura\service\FacturaService.class
+com\example\PagoFactura\WebClient\PedidoClient.class
+com\example\PagoFactura\service\PagoService.class
+com\example\PagoFactura\service\AutorizacionService.class
+com\example\PagoFactura\repository\PagoRepository.class
+com\example\PagoFactura\Model\Factura.class
+com\example\PagoFactura\Model\Pago.class
+com\example\PagoFactura\PagoFacturaApplication.class
+com\example\PagoFactura\repository\FacturaRepository.class
+com\example\PagoFactura\controller\FacturaController.class
+com\example\PagoFactura\config\LoadDatabase.class
+com\example\PagoFactura\WebClient\UsuarioClient.class
+com\example\PagoFactura\controller\PagoController.class
+com\example\PagoFactura\WebClient\UsuarioConectadoClient.class

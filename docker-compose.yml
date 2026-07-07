@@ -1,0 +1,161 @@
+version: '3.8'
+
+networks:
+  agrotech-network:
+    driver: bridge
+
+services:
+
+  # ========================================================
+  # ETAPA 1: BASES Y CATÁLOGOS MAESTROS
+  # ========================================================
+  roles-permisos:
+    build: ./RolesyPermisos
+    container_name: ms_roles_permisos
+    ports:
+      - "8089:8089"
+    networks:
+      - agrotech-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8089/actuator/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  gestor-marca-modelo:
+    build: ./GestorMarcaYModelo
+    container_name: ms_gestor_marca_modelo
+    ports:
+      - "8086:8086"
+    networks:
+      - agrotech-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8086/actuator/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # ========================================================
+  # ETAPA 2: GESTIÓN DE USUARIOS
+  # ========================================================
+  gestion-usuario:
+    build: ./GestionDeUsuarioNuevo
+    container_name: ms_gestion_usuario
+    ports:
+      - "8081:8081"
+    depends_on:
+      roles-permisos:
+        condition: service_healthy
+      gestor-marca-modelo:
+        condition: service_healthy
+    networks:
+      - agrotech-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8081/actuator/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # ========================================================
+  # ETAPA 3: NÚCLEO DE NEGOCIO Y OPERACIONES
+  # ========================================================
+  gestor-inventario:
+    build: ./GestorInventario
+    container_name: ms_gestor_inventario
+    ports:
+      - "8083:8083"
+    depends_on:
+      gestion-usuario:
+        condition: service_healthy
+    networks:
+      - agrotech-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8083/actuator/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  gestor-pedidos:
+    build: ./GestorPedidos
+    container_name: ms_gestor_pedidos
+    ports:
+      - "8085:8085"
+    depends_on:
+      gestion-usuario:
+        condition: service_healthy
+    networks:
+      - agrotech-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8085/actuator/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  gestor-entregas:
+    build: ./GestorEntregas
+    container_name: ms_gestor_entregas
+    ports:
+      - "8088:8088"
+    depends_on:
+      gestion-usuario:
+        condition: service_healthy
+    networks:
+      - agrotech-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8088/actuator/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  pago-factura:
+    build: ./PagoFactura
+    container_name: ms_pago_factura
+    ports:
+      - "8087:8087"
+    depends_on:
+      gestion-usuario:
+        condition: service_healthy
+    networks:
+      - agrotech-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8087/actuator/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # ========================================================
+  # ETAPA 4: SOPORTE Y RESGUARDO FINAL
+  # ========================================================
+  soporte-tecnico:
+    build: ./SoporteTecnico
+    container_name: ms_soporte_tecnico
+    ports:
+      - "8084:8084"
+    depends_on:
+      gestor-inventario:
+        condition: service_healthy
+      gestor-pedidos:
+        condition: service_healthy
+      gestor-entregas:
+        condition: service_healthy
+      pago-factura:
+        condition: service_healthy
+    networks:
+      - agrotech-network
+
+  autenticacion-nuevo:
+    build: ./AutenticacionNuevo
+    container_name: ms_autenticacion_nuevo
+    ports:
+      - "8082:8082"
+    depends_on:
+      gestor-inventario:
+        condition: service_healthy
+      gestor-pedidos:
+        condition: service_healthy
+      gestor-entregas:
+        condition: service_healthy
+      pago-factura:
+        condition: service_healthy
+    networks:
+      - agrotech-network

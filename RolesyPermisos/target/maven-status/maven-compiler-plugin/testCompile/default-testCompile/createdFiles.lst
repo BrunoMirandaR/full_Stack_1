@@ -1,0 +1,7 @@
+com\example\RolesyPermisos\config\LoadDatabaseTest.class
+com\example\RolesyPermisos\controller\PermisoControllerTest.class
+com\example\RolesyPermisos\controller\RolControllerTest.class
+com\example\RolesyPermisos\service\PermisoServiceTest.class
+com\example\RolesyPermisos\service\AutorizacionServiceTest.class
+com\example\RolesyPermisos\service\RoleServiceTest.class
+com\example\RolesyPermisos\RolesyPermisosApplicationTests.class

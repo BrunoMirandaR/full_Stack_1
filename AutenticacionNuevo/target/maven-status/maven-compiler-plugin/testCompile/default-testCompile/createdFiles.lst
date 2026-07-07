@@ -1,0 +1,5 @@
+com\example\Autentication\jwt\JwtAuthenticationFilterTest.class
+com\example\Autentication\jwt\JwtServiceTest.class
+com\example\Autentication\service\AuthServiceTest.class
+com\example\Autentication\controller\AuthControllerTest.class
+com\example\Autentication\AutenticationApplicationTests.class

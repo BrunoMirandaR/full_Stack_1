@@ -1,0 +1,14 @@
+com\example\GestorPedidos\controller\PedidoController.class
+com\example\GestorPedidos\repository\PedidoRepository.class
+com\example\GestorPedidos\service\AutorizacionService.class
+com\example\GestorPedidos\controller\TipoController.class
+com\example\GestorPedidos\webclient\UsuarioClient.class
+com\example\GestorPedidos\webclient\EquipoClient.class
+com\example\GestorPedidos\service\TipoService.class
+com\example\GestorPedidos\model\Tipo.class
+com\example\GestorPedidos\repository\TipoRepository.class
+com\example\GestorPedidos\webclient\PagoFacturaClient.class
+com\example\GestorPedidos\service\PedidoService.class
+com\example\GestorPedidos\GestorPedidosApplication.class
+com\example\GestorPedidos\model\Pedido.class
+com\example\GestorPedidos\webclient\UsuarioConectadoClient.class

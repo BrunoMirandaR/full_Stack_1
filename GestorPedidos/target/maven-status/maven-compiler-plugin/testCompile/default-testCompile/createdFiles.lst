@@ -1,0 +1,6 @@
+com\example\GestorPedidos\controller\PedidoControllerTest.class
+com\example\GestorPedidos\service\AutorizacionServiceTest.class
+com\example\GestorPedidos\service\TipoServiceTest.class
+com\example\GestorPedidos\controller\TipoControllerTest.class
+com\example\GestorPedidos\GestorPedidosApplicationTests.class
+com\example\GestorPedidos\service\PedidoServiceTest.class

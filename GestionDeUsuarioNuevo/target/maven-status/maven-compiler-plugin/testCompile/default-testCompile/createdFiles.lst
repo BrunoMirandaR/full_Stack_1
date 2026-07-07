@@ -1,0 +1,10 @@
+com\example\GestionUsuarios\service\RegistrationServiceTest.class
+com\example\GestionUsuarios\controller\RegistrationControllerTest.class
+com\example\GestionUsuarios\config\AppConfigTest.class
+com\example\GestionUsuarios\webclient\RoleClientTest$RoleHandler.class
+com\example\GestionUsuarios\config\LoadDatabaseTest.class
+com\example\GestionUsuarios\service\UserServiceTest.class
+com\example\GestionUsuarios\jwt\JwtServiceTest.class
+com\example\GestionUsuarios\GestionUsuariosApplicationTests.class
+com\example\GestionUsuarios\GestionUsuariosApplicationTests$NoopDatabaseLoaderConfig.class
+com\example\GestionUsuarios\webclient\RoleClientTest.class
